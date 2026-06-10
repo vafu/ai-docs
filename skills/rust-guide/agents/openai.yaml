@@ -1,0 +1,8 @@
+interface:
+  display_name: "Rust Guide"
+  short_description: "Pragmatic Rust engineering guidance"
+  default_prompt: "Use $rust-guide to make this Rust change fit the existing codebase."
+
+policy:
+  allow_implicit_invocation: true
+
