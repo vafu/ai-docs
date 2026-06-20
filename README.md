@@ -5,6 +5,7 @@ Reusable AI-agent guidance and Codex skills.
 ## Skills
 
 - `skills/rust-guide` - Rust project guidance for agents working in existing Rust codebases.
+- `skills/interactive-reviewer` - Collaborative review workflow with delegated code reading, durable notes, and per-unit refactor plans.
 
 ## Install
 
