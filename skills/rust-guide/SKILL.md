@@ -36,7 +36,8 @@ Read only the reference that matches the work:
 
 - `references/design.md` for high-level project direction, user preferences, constraints, success criteria, and initial crate/module shape.
 - `references/research.md` before proposing new infrastructure, types, dependencies, parsers, protocols, or architecture.
-- `references/architecture.md` for concrete crate boundaries, public APIs, feature flags, dependency choices, module layout, and compatibility decisions.
+- `references/architecture.md` for concrete crate boundaries, public APIs, feature flags, dependency choices, and compatibility decisions.
+- `references/code-structure.md` for `mod.rs` APIs, sibling implementation files, public/private modules, file splitting, and where code should live.
 - `references/implementation.md` for Rust coding practice around ownership, reuse, traits, async, visibility, invalid states, and refactor judgment.
 - `references/error-handling.md` for `Result`, `anyhow`, custom errors, and user-facing diagnostics.
 - `references/testing.md` for deciding what tests to add and how broad verification should be.

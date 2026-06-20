@@ -20,6 +20,8 @@ Make invalid states hard to represent when doing so removes meaningful runtime c
 
 Prefer trait-backed designs for functional behavior such as services, repositories, executors, formatters, clients, and adapters when that boundary helps composition or testing. Keep traits private or `pub(crate)` until a real external contract exists.
 
+When adding or changing public-facing APIs, update their documentation in the module root or public item definition as part of the code change. Treat missing docs on public APIs as an incomplete implementation unless the surrounding crate has a clear contrary convention.
+
 Keep async boundaries deliberate. Do not hold locks across `.await` unless the lock type and critical section are intentionally designed for it.
 
 ## Refactor Judgment
