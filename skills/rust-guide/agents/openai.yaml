@@ -1,8 +1,7 @@
 interface:
   display_name: "Rust Guide"
-  short_description: "Pragmatic Rust engineering guidance"
-  default_prompt: "Use $rust-guide to make this Rust change fit the existing codebase."
+  short_description: "Phased Rust development guidance"
+  default_prompt: "Use $rust-guide to guide this Rust work through the right development phase."
 
 policy:
   allow_implicit_invocation: true
-
