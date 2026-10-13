@@ -1,45 +1,48 @@
 ---
 name: rust-guide
-description: Use when working in Rust projects, especially for code changes, reviews, refactors, module boundary decisions, error handling, async/concurrency work, or test planning. Provides pragmatic Rust engineering guidance for agents so changes fit the existing codebase instead of introducing unnecessary abstraction or churn.
+description: "Use when working in Rust projects across the development lifecycle: design, research, architecture, implementation, testing, and refining. Applies to code changes, reviews, refactors, crate/module boundary decisions, dependency research, API design, error handling, async/concurrency work, and test planning. Provides pragmatic Rust engineering guidance so agents fit the existing codebase instead of introducing unnecessary abstraction or churn."
 ---
 
 # Rust Guide
 
 ## Operating Mode
 
-Start by reading the code that owns the behavior. Prefer the repository's existing patterns over new architecture, and keep changes scoped to the request. Treat warnings, tests, and public API changes as signals about design quality, not just compilation hurdles.
+Determine the current phase before acting. If the user asks for a plan, proposal, architecture, review, or implementation, choose the matching phase and read only the relevant reference. Move backward when findings invalidate the current direction; move forward when the phase has enough evidence to proceed.
+
+Always start by reading the code that owns the behavior. Prefer existing project types, crates, modules, and patterns over new architecture. Treat warnings, tests, and public API changes as signals about design quality, not just compilation hurdles.
+
+## Lifecycle
+
+1. **Design**: Clarify the goal, user preferences, constraints, success criteria, and likely crate/module shape. Produce a high-level direction, not a full implementation plan.
+2. **Research**: Inspect the workspace and established external crates before inventing new infrastructure, types, protocols, parsers, or frameworks.
+3. **Architecture**: Choose concrete crate boundaries, dependencies, feature flags, public APIs, error boundaries, and test strategy.
+4. **Implementation**: Make the smallest coherent code change using the repository's existing style and reusable types.
+5. **Testing**: Add or update focused tests, then run the narrowest useful verification before broadening.
+6. **Refining**: Compare the result against the original purpose and user preferences. Simplify, remove accidental abstractions, and return to design or architecture if the work no longer fits.
 
 ## Default Workflow
 
-1. Inspect module boundaries, call sites, error types, and tests before editing.
-2. Identify the smallest coherent behavioral change.
-3. Preserve public APIs unless the request or surrounding design justifies changing them.
-4. Add or update tests when behavior, parsing, error handling, concurrency, or public contracts change.
-5. Run the narrowest useful verification first, then broader checks when the blast radius is larger.
+1. Identify the active phase from the user's request and repository state.
+2. Inspect module boundaries, call sites, existing types, error types, dependencies, and tests before editing.
+3. Before introducing new structs, traits, crates, or architecture, check whether existing project types or established crates already fit the need.
+4. Preserve public APIs unless the request or surrounding design justifies changing them.
+5. Add or update tests when behavior, parsing, error handling, concurrency, or public contracts change.
+6. Run the narrowest useful verification first, then broader checks when the blast radius is larger.
+7. Refine the result against the goal and loop back to an earlier phase when needed.
 
-## Rust Preferences
+## Reference Map
 
-- Model ownership explicitly; avoid cloning to silence borrow errors unless the data is cheap or the clone clarifies ownership.
-- For multi-component systems, prefer separating shared contracts into an `api` crate and implementations into a `core` crate. Consumers that only need types or traits should not need to depend on runtime implementation details.
-- Within a crate, organize major features as `<feature>/mod.rs` plus sibling implementation files. Treat `mod.rs` as the crate-local public API for that feature: public traits, public structs, type aliases, and re-exports belong there; implementation details belong in the sibling files.
-- Prefer trait-backed designs for functional behavior, even when there is currently only one implementation. This keeps composition and future replacement points explicit.
-- Keep each implementation file centered on one primary struct. Multiple trait impls for that struct are fine; multiple unrelated struct implementations in one file are a design smell.
-- Keep files reasonably small. A large file should trigger an architecture check before adding more code.
-- Keep error handling typed at library boundaries and readable at binary/tool boundaries.
-- Use iterators where they clarify data flow; use loops when mutation, early exits, or error paths become easier to read.
-- Keep async boundaries deliberate. Do not hold locks across `.await` unless the lock type and critical section are intentionally designed for it.
-- Make invalid states hard to represent when doing so reduces real runtime checks without overcomplicating construction.
+Read only the reference that matches the work:
 
-## Tests
-
-Place module tests in a dedicated `test.rs` inside the module directory instead of embedding tests in production files. Keep production files focused on production code, and let each module own the tests for its public behavior.
-
-## Refactoring Rules
-
-Refactor when it reduces actual maintenance cost in the touched area. Avoid broad cleanup while fixing narrow behavior. If duplication exists, first check whether it is accidental repetition, intentionally local clarity, or caused by missing module boundaries.
-
-For deeper guidance, read only the relevant reference:
-
-- `references/module-boundaries.md` for splitting files, moving helpers, or reducing redundancy.
+- `references/design.md` for high-level project direction, user preferences, constraints, success criteria, and initial crate/module shape.
+- `references/research.md` before proposing new infrastructure, types, dependencies, parsers, protocols, or architecture.
+- `references/architecture.md` for concrete crate boundaries, public APIs, feature flags, dependency choices, and compatibility decisions.
+- `references/code-structure.md` for `mod.rs` APIs, sibling implementation files, public/private modules, file splitting, and where code should live.
+- `references/implementation.md` for Rust coding practice around ownership, reuse, traits, async, visibility, invalid states, and refactor judgment.
 - `references/error-handling.md` for `Result`, `anyhow`, custom errors, and user-facing diagnostics.
 - `references/testing.md` for deciding what tests to add and how broad verification should be.
+- `references/refining.md` after implementation or review to assess fit, simplify, and decide whether to loop back.
+
+## Refactoring Rule
+
+Refactor when it reduces actual maintenance cost in the touched area. Avoid broad cleanup while fixing narrow behavior. If duplication exists, first check whether it is accidental repetition, intentionally local clarity, or caused by missing module boundaries.

@@ -7,6 +7,7 @@ Reusable AI-agent guidance and Codex skills.
 - `skills/rust-guide` - Rust project guidance for agents working in existing Rust codebases.
 - `skills/proj` - Use `proj` for current-goal tracking, durable project planning,
   nested subtasks, progress/status updates, and Markdown context notes.
+- `skills/interactive-reviewer` - Collaborative review workflow with delegated code reading, durable notes, and per-unit refactor plans.
 
 ## Install
 

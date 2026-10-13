@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interactive Reviewer"
+  short_description: "Guide live code reviews with tracked notes."
+  default_prompt: "Use $interactive-reviewer to run a crate-by-crate code review session with delegated read-throughs, live note tracking, and per-crate refactor plans."
